@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        table{
+            border: 1px solid #000;
+            border-collapse: collapse;
+            margin: 100px auto; 
+        }
+        td{
+            border: 1px solid #000;
+           
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+        }
+       
+    </style>
+    <script src="./vue.js"></script>
+    <script src="./axios.js"></script>
+    <script src="./moment.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <table>
+            <tr>
+                <td colspan="3">
+                    <input type="text" v-model='namenew'>
+                    <button @click='GetAdd'>添加</button>
+                <td colspan="3">
+                    <input type="text" v-model='seeknew'>
+                    <button @click='GetSeek'>搜索</button>
+            </tr>
+            <tr>
+                <td></td>
+                <td>标签</td>
+                <td>名称</td>
+                <td>创建时间</td>
+                <td>操作</td>
+            </tr>
+            <tr v-for="(item,k) in oldGoods" :key='item.id'>
+                <td><input type="checkbox"></td>
+                <td>{{item.id}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.ctime}}</td>
+                <td><button @click="del(item.id)">删除</button></td>
+            </tr>
+            </tr>
+        </table>
+    </div>
+</body>
+<script>
+    axios.defaults.baseURL = "http://127.0.0.1:3006/"
+    Vue.prototype.$http = axios
+
+    var vm = new Vue({
+        // created(){
+        //     this.goods=[
+        //     {id:1,name:'小米' ,time:2018},
+        //     {id:2,name:'华为' ,time:2018},
+        //     {id:3,name:'魅族' ,time:2018}
+        //     ]
+        // },
+        el: '#app',
+        data: {
+            namenew: '',
+            oldGoods: [],
+            tempArr:[],
+            seeknew: '',
+        },
+
+        methods: {
+            //  搜素
+            GetSeek() {
+                if (this.seeknew == '') {
+                    this.oldGoods = this.tempArr;
+                } else {
+                    this.oldGoods =  this.oldGoods.filter((item) => {
+                        return item.name.includes(this.seeknew)
+                    })
+                }
+            },
+            // 刪除
+            async del(id) {
+                const { data } = await this.$http.get(`/api/delproduct/${id}`)
+                this.GetGoods()
+            },
+            //   添加
+            async GetAdd() {
+
+                const { data } = await this.$http.post('/api/addproduct', {
+                    name: this.namenew,
+                    ctime: moment(new Date()).format('MMMM Do YYYY, h:mm:ss a')
+                })
+                this.GetGoods()
+                this.namenew = ''
+
+            },
+
+            // 渲染页面获取数据
+            async GetGoods() {
+                const { data: res } = await this.$http.get('/api/getprodlist')
+
+                if (res.status === 0) {
+                    this.oldGoods = res.message
+                    this.tempArr = res.message;
+                }
+
+            },
+
+        },
+        created() {
+            this.GetGoods()
+        },
+
+        // 搜素
+
+
+
+
+
+
+
+    })
+
+</script>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <ul>
+       <li><a href="#/index">首页</a></li>
+       <li><a href="#/login">登录</a></li>
+       <li><a href="#/item">详情页</a></li>
+       <li><a href="#/add">添加页面</a></li>
+    </ul>
+    <div id="app"></div>
+</body>
+<script>
+   window.onhashchange = function(){
+    // location.hash则可以用来获取或设置页面的标签值
+    var hash = location.hash
+    // replace() 方法用于在字符串中用一些字符替换另一些字符，或替换一个与正则表达式匹配的子串。
+    hash = hash.replace('#/','');
+    var app = document.querySelector('#app')
+    switch(hash){
+       case 'index' :
+       app.innerHTML='首页'
+       break;
+
+       case 'login' :
+       app.innerHTML='登录页'
+       break;
+
+       case 'item' :
+       app.innerHTML='详情页'
+       break;
+
+       case 'add' :
+       app.innerHTML='添加页面'
+       break;
+
+
+    }
+
+   }
+
+</script>
+</html>

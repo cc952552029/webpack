@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+       input{
+           width: 25px;
+           text-align: center;
+
+       }
+  
+  </style>
+  <script src="./vue.js"></script>
+</head>
+<body>
+  <div id="app">
+        <mycom></mycom>
+        <mycom></mycom>
+        <mycom></mycom>
+        <mycom></mycom>
+        <mycom></mycom>
+        <mycom></mycom>
+      
+  </div>
+</body>
+</html>
+<script>
+    Vue.component('mycom',{
+        template:`
+        <div>
+        <button @click='sub'>-</button>
+        <input type="text"v-model="count">
+        <button @click='add'>+</button>
+      </div>`,
+      data(){
+          return {
+            count:1,
+          }
+    },
+    methods:{
+        add(){
+            this.count++
+        },
+        sub(){
+            this.count--
+        }
+    }
+    })
+
+  var vm = new Vue({
+    el:'#app',
+    data:{
+    },
+    methods:{ 
+        
+    }
+    
+ });
+</script>

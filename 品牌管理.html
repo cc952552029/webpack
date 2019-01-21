@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        table{
+            border: 1px solid #000;
+            border-collapse: collapse;
+            margin: 100px auto; 
+        }
+        td{
+            border: 1px solid #000;
+           
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+        }
+       
+    </style>
+    <script src="./vue.js"></script>
+    <script src="./axios.js"></script>
+</head>
+<body>
+    <div id="app">
+        <table>
+            <tr>
+                <td colspan="3">
+                <input type="text" v-model='namenew'>
+                <button @click='add'>添加</button>
+                <td colspan="3">
+                <input type="text" v-model='seeknew'>
+              
+            </tr>
+            <tr>
+                <td></td>
+                <td>标签</td>
+                <td>名称</td>
+                <td>创建时间</td>
+                <td>操作</td>
+            </tr>
+            <tr v-for="(item,k) in seek()" :key='item.id'>
+                <td><input type="checkbox" ></td>
+                <td>{{item.id}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.time}}</td>
+                <td><button @click="del(item.id)">删除</button></td>
+            </tr>
+            </tr>
+        </table>
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        created(){
+            this.goods=[
+            {id:1,name:'小米' ,time:2018},
+            {id:2,name:'华为' ,time:2018},
+            {id:3,name:'魅族' ,time:2018}
+            ]
+        },
+        el:'#app',
+        data:{
+            namenew:'',
+            goods:[ ],
+            seeknew:'',
+        },
+        methods:{
+
+            
+         add(){
+             var newid = this.goods.length+1
+             var obj = {id:newid,name:this.namenew}
+             this.goods.unshift(obj)
+             this.namenew=""
+         },
+         seek(){
+             return this.goods.filter((item)=>{
+                 return item.name.includes(this.seeknew)
+             })
+         },
+         del(id){
+             if(window.confirm('确定删除？')){
+                 var k = this.goods.findIndex(function(item){
+                     return item.id===id
+                 })
+                 this.goods.splice(k,1)
+
+             }
+         }
+         
+        }
+    })
+
+</script>
+</html>

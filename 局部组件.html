@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./vue.js"></script>
+</head>
+<body>
+  <div id="app">
+        <pac-com></pac-com>
+
+  </div>
+</body>
+</html>
+<script>
+  var vm = new Vue({
+    el:'#app',
+    data:{},
+    methods:{},
+    components:{
+        'pac-com':{
+            template:`
+        <div>
+        <button @click='sub'>-</button>
+        <input type="text"v-model="count">
+        <button @click='add'>+</button>
+        </div>`,
+        methods:{
+        add(){
+            this.count++
+        },
+        sub(){
+            this.count--
+        }
+    },
+    data(){
+        return {
+            count:1
+        }
+
+    }
+
+        },
+        
+    }
+ });
+</script>
